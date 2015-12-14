@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="bootstrap.css"/>
+         <script src="js/angular.min.js"></script>
+        <script>
+            angular.module("malo",[])
+                    .controller('con',function($scope, $http){
+                    console.log('Holaaa') 
+            $scope.nombre;
+            $scope.email;
+            $scope.paterno;
+           
+    $scope.guardar=function(){
+         $http.post('http://localhost:9001/cliente/'+
+                    $scope.nombre+'/'+$scope.email+'/'+$scope.paterno)
+                    .success(function(datos){
+                console.log(datos);
+            });
+    }
+    
+     $scope.buscarTodos=function(){
+         $http.get('http://localhost:9001/cliente')
+                    .success(function(datos){
+                console.log(datos.length);
+        $scope.clientes=datos;
+            });
+    }
+     
+      $scope.buscarPorId=function(){
+         $http.get('http://localhost:9001/cliente/'+$scope.miId)
+                    .success(function(cliente){
+                console.log(cliente.nombre);
+        $scope.clientes=cliente;
+        $scope.nombre=cliente.nombre;
+        $scope.email=cliente.email;
+        $scope.paterno=cliente.paterno;
+            });
+    }
+         
+      $scope.borrar=function(){
+         $http.delte('http://localhost:9001/cliente/'+$scope.miId)
+                    .success(function(cliente){
+                console.log(cliente.nombre);
+            });
+    }
+        $scope.actualizar=function(){
+         $http.put('http://localhost:9001/cliente/'+
+                    $scope.nombre+'/'+$scope.email+'/'+$scope.paterno)
+                    .success(function(datos){
+                console.log(datos);
+            });
+    }       
+            
+            });
+            
+            
+        </script>
+    </head>
+    <body ng-app="malo">
+        <div ng-controller="con">
+            <input type="text" ng-model="nombre" placeholder="nombre">
+             <input type="text" ng-model="email" placeholder="email">
+              <input type="text" ng-model="paterno" placeholder="paterno">
+             <button ng-click="guardar()" class="btn btn-primary">Guardar cliente</button>
+             <br>
+            <input type=text ng-model="miId" placeholder="mete un id">
+            <div class="btn btn-warning" ng-click="buscarPorId()">buscar por id</div>
+            <h3>Ahora vamos a buscar todos</h3>
+            <div class="btn btn-warning" ng-click="buscarTodos()">buscar todos</div>
+            <ul>
+                <li ng-repeat="cliente in clientes">{{cliente.nombre}} ---- {{cliente.email}}</li>
+            </ul>
+            
+            <ul>
+                
+            </ul>
+        </div>
+    </body>
+</html>
