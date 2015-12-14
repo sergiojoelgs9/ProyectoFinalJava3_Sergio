@@ -47,7 +47,7 @@ and open the template in the editor.
     }
          
       $scope.borrar=function(){
-         $http.delte('http://localhost:9001/cliente/'+$scope.miId)
+         $http.delete('http://localhost:9001/cliente/'+$scope.miId)
                     .success(function(cliente){
                 console.log(cliente.nombre);
             });
